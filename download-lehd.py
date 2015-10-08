@@ -66,11 +66,14 @@ if __name__=='__main__':
     print 'Files found: ', len(all_files)
     
     #for file_url in all_files:
+    #    fileName = file_url.split('/')[-1]
+    #    download_file(file_url, fileName)
+    #    upload_to_sftp(fileName)
+    #    remove_local_file(fileName)
     #    print file_url
-    # parse first file name for function dev
-    fileName = all_files[1].split('/')[-1]
-    # separate out steps into own functions
-    download_file(all_files[1], fileName)
+    # parse file name for functions
+    fileName = all_files[2].split('/')[-1]
+    download_file(all_files[2], fileName)
     upload_to_sftp(fileName)
     remove_local_file(fileName)
     
