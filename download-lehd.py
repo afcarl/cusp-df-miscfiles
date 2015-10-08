@@ -11,7 +11,9 @@
         b) upload file to sftp site (given in <sftp creds> argument), and
         c) removes file from local directory
         
-    Note: for sftp credentals (<sftp creds>), can either a) link to a saved JSON file with line 45 or b) paste/type in JSON string directly to command line using line 46
+    Note: for sftp credentals (<sftp creds>), can either 
+        a) link to a saved JSON file with line 45 or 
+        b) paste/type in JSON string directly to command line using line 46
 '''
 import os
 import sys
@@ -42,8 +44,8 @@ def download_file(url, fname):
     # b) call sftp transfer function and c) delete local file
 
 def upload_to_sftp(localFile):
-    # creds = json.load(sys.argv[2])
-    creds = json.loads(sys.argv[2])
+    creds = json.load(sys.argv[2])
+    # creds = json.loads(sys.argv[2])
     # Create SFTP connection
     sftp = pysftp.Connection(host=creds['host'], username=creds['username'], password=creds['password'])
     with sftp.cd('upload'):
@@ -65,6 +67,8 @@ if __name__=='__main__':
     all_files = get_all_files(files_url)
     print 'Files found: ', len(all_files)
     
+    # keep track of parsed and added table list
+    completed_tables = []
     #for file_url in all_files:
     #    fileName = file_url.split('/')[-1]
     #    download_file(file_url, fileName)
@@ -72,9 +76,10 @@ if __name__=='__main__':
     #    remove_local_file(fileName)
     #    print file_url
     # parse file name for functions
-    fileName = all_files[2].split('/')[-1]
-    download_file(all_files[2], fileName)
-    upload_to_sftp(fileName)
+    fileName = all_files[0].split('/')[-1]
+    download_file(all_files[0], fileName)
+    completed_tables = completed_tables.append(parse_add_data(all_files[0], fileName))
+    #upload_to_sftp(fileName)
     remove_local_file(fileName)
     
     print 'finished.'
