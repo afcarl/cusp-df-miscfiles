@@ -1,10 +1,21 @@
+'''
+    Author: Clayton
+    Date: Oct 8, 2015
+    
+    usage:
+    python dnload-parse-add-lehd.py <url-to-data-files>
+    
+    details:
+    program get's a full list of "...".gz files from an input URL contained in any <a href=""> html element, then iterates through the list to:
+        a) download the .gz file,
+        b) add data to master file, and
+        c) removes file from local directory
+        
+'''
 import os
 import sys
 import requests
 from bs4 import BeautifulSoup
-import pysftp
-import json
-# import csv, gzip #, io
 import pandas as pd
 
 def get_all_files(url):
@@ -27,29 +38,36 @@ def download_file(url, fname):
     print 'file written to local'
 
 def parse_add_data(masterFileName, addFileName):
-    file_yts = addFileName.split('_')
-    file_yts[4] = file_yts[4][:4]
-    yts_lines = [file_yts[4], file_yts[3], file_yts[2]]
-    print "'YEAR,TYPE,SEG' are: ", yts_lines
-    # with csv.reader(io.BufferedReader(gzip.open(addFileName, 'rb'))) as reader:
-    print 'opening ', addFileName, ' with pandas'
-    df=pd.read_csv(addFileName)
+    # get and edit file name components for this file
     file_yts= addFileName.split('_')
     yts_lines = [file_yts[4][:4], file_yts[3], file_yts[2]]
+    print 'opening ', addFileName, ' with pandas'
+    df=pd.read_csv(addFileName)
     # check if master file exists
     if (not os.path.isfile(masterFileName)):
-        # with open(masterFileName) as f:
+        # set up data frame for write
         df['YEAR'] = yts_lines[0]
         df['TYPE'] = yts_lines[1]
         df['SEG'] = yts_lines[2]
+        # write first dataset to master file
         df.to_csv(masterFileName, encoding='utf-8', index_label=False, index=False)
     else:
         with open(masterFileName, 'a') as f:
+            # set up header line
             df['YEAR'] = yts_lines[0]
             df['TYPE'] = yts_lines[1]
             df['SEG'] = yts_lines[2]
+            # write next dataset to master file
             df.to_csv(f, encoding='utf-8', index_label=False, index=False, header=False)
     return addFileName
+
+def remove_local_file(localFile):
+    try:
+        os.remove(localFile)
+    except OSError:
+        raise # raise if error
+    print 'done removing file: ', localFile
+
 
 if __name__=='__main__':
     files_url = sys.argv[1] # input "http://path/to/data/" at command line
@@ -60,16 +78,18 @@ if __name__=='__main__':
     print 'Files found: ', len(all_files)
     
     # keep track of parsed and added table list
-    i = 0
     completed_tables = ["" for x in range(len(all_files))]
-    for file_url in all_files[300:303]:
+    for file_url in all_files:
         fileName = file_url.split('/')[-1]
-        # master file name is <st>_<dataset>
+        # master file name is <st>_<dataset>.csv
         masterFile = file_url.split('/')[-2]+'_'+file_url.split('/')[-3]+'.csv'
+        # download and save this file
         download_file(file_url, fileName)
-        completed_tables[i] = parse_add_data(masterFile, fileName)
+        # add saved file to master
+        fileAdded = parse_add_data(masterFile, fileName)
+        # remove temporary file
+        remove_local_file(fileName)
         print 'completed download and parse of: ', fileName
-        i += 1
     
-    print 'finished. ', len(completed_tables), ' tables appended'
+    print 'finished.'
  
