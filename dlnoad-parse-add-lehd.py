@@ -77,8 +77,6 @@ if __name__=='__main__':
     # file_url = files_url + 'ny_rac_S000_JT00_2003.csv.gz'
     print 'Files found: ', len(all_files)
     
-    # keep track of parsed and added table list
-    completed_tables = ["" for x in range(len(all_files))]
     for file_url in all_files:
         fileName = file_url.split('/')[-1]
         # master file name is <st>_<dataset>.csv
