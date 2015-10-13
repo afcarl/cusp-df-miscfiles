@@ -21,6 +21,8 @@ import requests
 from bs4 import BeautifulSoup
 import pysftp
 import json
+import csv, gzip, io
+
 # http://lehd.ces.census.gov/data/lodes/LODES7/ny/rac/
 
 def get_all_files(url):
@@ -35,7 +37,7 @@ def get_all_files(url):
 def download_file(url, fname):
     print 'starting data download...'
     ### a) save, 
-    fname = url.split('/')[-1]
+    #fname = url.split('/')[-1]
     r = requests.get(url, stream=True)
     with open(fname, 'wb') as fd:
         for chunk in r.iter_content(1000):
@@ -43,45 +45,22 @@ def download_file(url, fname):
     print 'file written to local'
     # b) call sftp transfer function and c) delete local file
 
-def upload_to_sftp(localFile):
-    creds = json.load(sys.argv[2])
-    # creds = json.loads(sys.argv[2])
-    # Create SFTP connection
-    sftp = pysftp.Connection(host=creds['host'], username=creds['username'], password=creds['password'])
-    with sftp.cd('upload'):
-	    print 'pre-existing files on sftp: ', sftp.listdir()
-	    sftp.put(localFile)
-	    print 'now existing files: ', sftp.listdir()
-    print 'upload file: ', localFile
-    
-def remove_local_file(localFile):
-    try:
-        os.remove(localFile)
-    except OSError:
-        raise # raise if error
-    print 'done removing file: ', localFile
-
 if __name__=='__main__':
     files_url = sys.argv[1] # input "http://path/to/data/" at command line
+    print files_url
     # get all file names
     all_files = get_all_files(files_url)
     print 'Files found: ', len(all_files)
     
-    # keep track of parsed and added table list
-    completed_tables = []
-    #for file_url in all_files:
-    #    fileName = file_url.split('/')[-1]
-    #    download_file(file_url, fileName)
-    #    upload_to_sftp(fileName)
-    #    remove_local_file(fileName)
-    #    print file_url
-    # parse file name for functions
-    fileName = all_files[0].split('/')[-1]
-    download_file(all_files[0], fileName)
-    completed_tables = completed_tables.append(parse_add_data(all_files[0], fileName))
-    #upload_to_sftp(fileName)
-    remove_local_file(fileName)
+    i = 0 # counter
+    for file_url in all_files[0:2]:
+        fileName = file_url.split('/')[-1]
+        # master file name is <st>_<dataset>
+        # masterFile = file_url.split('/')[-2]+'_'+file_url.split('/')[-3]+'.csv'
+        download_file(file_url, fileName)
+        # remove_local_file(fileName)
+        i += 1
+        print 'completed download and save of: ', fileName
     
-    print 'finished.'
-    
+    print 'finished. saved %s files' % (i)
 
