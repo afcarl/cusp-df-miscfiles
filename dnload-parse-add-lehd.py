@@ -56,11 +56,11 @@ def parse_add_data(masterFileName, addFileName):
         df.to_csv(masterFileName, encoding='utf-8', index_label=False, index=False)
     else:
         with open(masterFileName, 'a') as f:
-            # set up header line
+            # add file components to DataFrame
             df['YEAR'] = yts_lines[0]
             df['TYPE'] = yts_lines[1]
             df['SEG'] = yts_lines[2]
-            # write next dataset to master file
+            # append next dataset to master file
             df.to_csv(f, encoding='utf-8', index_label=False, index=False, header=False)
     return addFileName
 
