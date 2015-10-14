@@ -24,9 +24,8 @@ def get_all_files(url):
     return url_list
 
 def download_file(url, fname):
-    print 'starting data download...'
+    print 'starting data download of ', fname
     ### a) save, 
-    #fname = url.split('/')[-1]
     r = requests.get(url, stream=True)
     with open(fname, 'wb') as fd:
         for chunk in r.iter_content(1000):
@@ -41,7 +40,7 @@ if __name__=='__main__':
     print 'Files found: ', len(all_files)
     
     i = 0 # counter
-    for file_url in all_files[0:2]:
+    for file_url in all_files:
         fileName = file_url.split('/')[-1]
         # master file name is <st>_<dataset>
         # masterFile = file_url.split('/')[-2]+'_'+file_url.split('/')[-3]+'.csv'
