@@ -24,30 +24,27 @@ def get_all_files(url):
     return url_list
 
 def download_file(url, fname):
-    print 'starting data download of ', fname
-    ### a) save, 
+    # download then locally write file
     r = requests.get(url, stream=True)
     with open(fname, 'wb') as fd:
         for chunk in r.iter_content(1000):
             fd.write(chunk)
-    print 'file written to local'
 
 if __name__=='__main__':
     files_url = sys.argv[1] # input "http://path/to/data/" at command line
     
-        # get all file names
+    # get all file names
     all_files = get_all_files(files_url)
     print 'Files found: ', len(all_files)
     
     i = 0 # counter
     for file_url in all_files:
         fileName = file_url.split('/')[-1]
-        # master file name is <st>_<dataset>
-        # masterFile = file_url.split('/')[-2]+'_'+file_url.split('/')[-3]+'.csv'
+        print 'starting download of', fileName
         download_file(file_url, fileName)
-        # remove_local_file(fileName)
         i += 1
-        print 'completed download and save of: ', fileName
+        print 'completed download and save of', fileName
+        print 'now {0:.2f}% complete'.format(i*100./len(all_files))
     
     print 'finished. saved %s files' % (i)
 
