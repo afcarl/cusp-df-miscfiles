@@ -34,7 +34,7 @@ if __name__=='__main__':
         download_file(file_url, tbl)
         
         print 'completed download and save of', tbl
-        print 'now {0:.2f}% complete'.format(i*100./len(fips))
+        print 'now {0:.2f}% complete'.format((i+1)*100./len(fips))
     
     print 'finished. saved %s files' % (i+1)
 
