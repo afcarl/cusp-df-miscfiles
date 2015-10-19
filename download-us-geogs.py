@@ -31,7 +31,7 @@ if __name__=='__main__':
         file_url = baseURL + tbl
 
         print 'at url', file_url
-        download_file(file_url, fileName)
+        download_file(file_url, tbl)
         
         print 'completed download and save of', tbl
         print 'now {0:.2f}% complete'.format(i*100./len(fips))
