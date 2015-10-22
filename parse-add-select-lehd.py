@@ -36,9 +36,9 @@ if __name__=='__main__':
     all_files = [f for f in files if (f.split('.')[-1]=='gz' and f.split('_')[0]==st and f.split('_')[1]==part)]
     print 'file list is:', all_files
     
+    masterFile = st + 'c_' + part + '.csv'
+    
     for fileName in all_files:
-        masterFile = st + 'c_' + part + '.csv'
-        
         # get and edit file name components for this file
         file_yts= fileName.split('_')
         yts_lines = [file_yts[4][:4], file_yts[3], file_yts[2]]
