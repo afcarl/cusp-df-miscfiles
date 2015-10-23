@@ -44,25 +44,27 @@ if __name__=='__main__':
         yts_lines = [file_yts[4][:4], file_yts[3], file_yts[2]]
         print 'opening ', fileName, ' with pandas'
         df=pd.read_csv(fileName)
-        # set up data frame for write
-        df['YEAR'] = yts_lines[0]
-        df['TYPE'] = yts_lines[1]
-        df['SEG'] = yts_lines[2]
-        
-        # select just blocks in cnty_list
-        df.iloc[:, [0]] = df.iloc[:, [0]].astype(str)
-        fips = df.iloc[:, [0]]
-        print 'subsetted and converted fips to string'
-        toSelect = fips.apply(lambda c: True if c.iloc[0][0:5] in cnty_list else False, axis=1)
-        print 'created toSelect'
-        df = df[toSelect]
-        
-        # print df.info()
-        # print 'cnty len is', len(cnty)
-        # add saved file to master
-        # fileAdded = 
-        add_data(masterFile, df)
-        print 'completed:', fileName
-    
+        if (len(df) > 0):
+            # set up data frame for write
+            df['YEAR'] = yts_lines[0]
+            df['TYPE'] = yts_lines[1]
+            df['SEG'] = yts_lines[2]
+            
+            # select just blocks in cnty_list
+            df.iloc[:, [0]] = df.iloc[:, [0]].astype(str)
+            fips = df.iloc[:, [0]]
+            print 'subsetted and converted fips to string'
+            toSelect = fips.apply(lambda c: True if c.iloc[0][0:5] in cnty_list else False, axis=1)
+            print 'created toSelect'
+            df = df[toSelect]
+            
+            # print df.info()
+            # print 'cnty len is', len(cnty)
+            # add saved file to master
+            # fileAdded = 
+            add_data(masterFile, df)
+            print 'completed:', fileName
+        else:
+            print 'no data in file', fileName
     print 'finished.'
  
