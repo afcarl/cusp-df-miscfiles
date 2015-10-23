@@ -3,10 +3,10 @@
     Date: Oct 22, 2015
     
     usage:
-    python parse-add-lehd.py <st> <dataset>
+    python parse-add-lehd.py <st>
     
     details:
-    program iterates through selected counties' "...".gz files from working directory, then extracts the listed counties and adds data to master file named <st>c_<dataset>.csv
+    program iterates through selected counties' "...".gz files from working directory, then extracts the listed counties and adds data to master file named <st>c_od.csv
         
     NOTE: pandas reads in #_geocode columns as integer and this program DOES NOT add the leading zero for states' FIPS that begin with '0' (eg CT)
 '''
