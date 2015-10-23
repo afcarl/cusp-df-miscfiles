@@ -42,7 +42,7 @@ if __name__=='__main__':
         # get and edit file name components for this file
         file_yts= fileName.split('_')
         yts_lines = [file_yts[4][:4], file_yts[3], file_yts[2]]
-        print 'opening ', fileName, ' with pandas'
+        print 'opening ', fileName
         df=pd.read_csv(fileName)
         if (len(df) > 0):
             # set up data frame for write
