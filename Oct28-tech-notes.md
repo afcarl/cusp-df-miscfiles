@@ -1,10 +1,8 @@
 ## data manipulation to extract some LEHD LODES data for a visualization proof of concept, all below run on CUSP compute
 
-#### create table example (in psql, "df_spatial" postgres DB)
-`CREATE TABLE bg2010_nhood (geoid varchar(12), ntacode varchar(4), ntaname varchar(100), lat double precision, lon double precision);`
-
-#### load csv to existing table with psql \copy command
-`\copy bg2010_nhood FROM '/home/cusp/crh278/lehd/geogs/bg2010_lookup.csv' CSV HEADER`
+#### create empty table (in psql) and add to "df_spatial" postgres DB
++ `CREATE TABLE bg2010_nhood (geoid varchar(12), ntacode varchar(4), ntaname varchar(100), lat double precision, lon double precision);`
++ `\copy bg2010_nhood FROM '/home/cusp/crh278/lehd/geogs/bg2010_lookup.csv' CSV HEADER`
 
 #### compile geography data for NY-NJ-CT blocks, plus some DB admin stuff
 + `SELECT * INTO tristate_blocks FROM (SELECT * FROM tl_2010_09_tabblock10 UNION ALL SELECT * FROM tl_2010_34_tabblock10 UNION ALL SELECT * FROM tl_2010_36_tabblock10) as q;` - create table from 3 state level block tables
@@ -71,10 +69,10 @@
 + `scp crh278@shell.cusp.nyu.edu:/home/cusp/crh278/lehd/lodes_tmp/dumbo_od.csv ./`
 + `scp crh278@shell.cusp.nyu.edu:/home/cusp/crh278/lehd/lodes_tmp/dumbo_od_wCoords.csv ./` - a bit of a misnomer file name, simply 3 columns: geocode (block id), lat, lon
 
-#### files generated for testing and dev, need to trim these down even more
+#### files generated for testing and dev, need to trim these down more
 (size, date, name)
-+ 182M Oct 28 18:59 `dumbo_od.csv`
-+ 5.6M Oct 28 18:55 `dumbo_od_wCoords.csv`
++ 182M Oct 28 18:59 `dumbo_od.csv` - either O/D in DUMBO
++ 5.6M Oct 28 18:55 `dumbo_od_wCoords.csv` - any block id (O-D, plus lat/lon) from above in NY-NJ-CT
 + 9.8M Oct 28 13:27 `dumbo_rac.csv`
 + 12M Oct 28 13:27 `dumbo_wac.csv`
 
