@@ -37,14 +37,12 @@ if __name__=='__main__':
     all_files = get_all_files(files_url)
     print 'Files found: ', len(all_files)
     
-    i = 0 # counter
-    for file_url in all_files:
+    for i, file_url in enumerate(all_files[0:3]):
         fileName = file_url.split('/')[-1]
         print 'starting download of', fileName
         download_file(file_url, fileName)
-        i += 1
         print 'completed download and save of', fileName
-        print 'now {0:.2f}% complete'.format(i*100./len(all_files))
+        print 'now {0:.2f}% complete'.format((i+1)*100./len(all_files))
     
     print 'finished. saved %s files' % (i)
 

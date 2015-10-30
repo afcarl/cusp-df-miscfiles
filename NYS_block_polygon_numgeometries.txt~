@@ -1,0 +1,21 @@
+df_spatial=> SELECT ST_NumGeometries(geom) numgeo, count(gid) recs FROM tl_2010_36_tabblock10 GROUP BY numgeo;
+ numgeo |  recs  
+--------+--------
+      1 | 349906
+      2 |    144
+      3 |     48
+      4 |     23
+      5 |     14
+      6 |     12
+      7 |      4
+      8 |      3
+      9 |      5
+     10 |      1
+     11 |      2
+     13 |      1
+     14 |      1
+     15 |      2
+     18 |      1
+     22 |      1
+     30 |      1
+

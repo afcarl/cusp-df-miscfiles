@@ -1,0 +1,27 @@
+df_spatial=> \d+ tl_2010_09_tabblock10
+                                                  Table "public.tl_2010_09_tabblock10"
+   Column   |            Type             |                              Modifiers                              | Storage  | Description 
+------------+-----------------------------+---------------------------------------------------------------------+----------+-------------
+ gid        | integer                     | not null default nextval('tl_2010_09_tabblock10_gid_seq'::regclass) | plain    | 
+ statefp10  | character varying(2)        |                                                                     | extended | 
+ countyfp10 | character varying(3)        |                                                                     | extended | 
+ tractce10  | character varying(6)        |                                                                     | extended | 
+ blockce10  | character varying(4)        |                                                                     | extended | 
+ geoid10    | character varying(15)       |                                                                     | extended | 
+ name10     | character varying(10)       |                                                                     | extended | 
+ mtfcc10    | character varying(5)        |                                                                     | extended | 
+ ur10       | character varying(1)        |                                                                     | extended | 
+ uace10     | character varying(5)        |                                                                     | extended | 
+ uatyp10    | character varying(1)        |                                                                     | extended | 
+ funcstat10 | character varying(1)        |                                                                     | extended | 
+ aland10    | double precision            |                                                                     | plain    | 
+ awater10   | double precision            |                                                                     | plain    | 
+ intptlat10 | character varying(11)       |                                                                     | extended | 
+ intptlon10 | character varying(12)       |                                                                     | extended | 
+ geom       | geometry(MultiPolygon,4269) |                                                                     | main     | 
+Indexes:
+    "tl_2010_09_tabblock10_pkey" PRIMARY KEY, btree (gid)
+    "tl_2010_09_tabblock10_geom_idx" gist (geom)
+Has OIDs: no
+
+

@@ -1,0 +1,51 @@
+df_spatial=> SELECT ST_NumGeometries(geom) numgeo, count(gid) recs FROM tl_2010_36_tabblock10 GROUP BY numgeo;
+ numgeo |  recs  
+--------+--------
+      1 | 349906
+      2 |    144
+      3 |     48
+      4 |     23
+      5 |     14
+      6 |     12
+      7 |      4
+      8 |      3
+      9 |      5
+     10 |      1
+     11 |      2
+     13 |      1
+     14 |      1
+     15 |      2
+     18 |      1
+     22 |      1
+     30 |      1
+
+df_spatial=> SELECT ST_NumGeometries(geom) numgeo, count(gid) recs FROM tl_2010_34_tabblock10 GROUP BY numgeo;
+ numgeo |  recs  
+--------+--------
+      1 | 169437
+      2 |     82
+      3 |     27
+      4 |     16
+      5 |      8
+      6 |      6
+      7 |      1
+      8 |      3
+      9 |      1
+     11 |      1
+     13 |      2
+     15 |      1
+     16 |      1
+     17 |      1
+     19 |      1
+
+df_spatial=> SELECT ST_NumGeometries(geom) numgeo, count(gid) recs FROM tl_2010_09_tabblock10 GROUP BY numgeo;
+ numgeo | recs  
+--------+-------
+      1 | 67535
+      2 |    29
+      3 |     4
+      4 |     3
+      5 |     5
+      6 |     1
+     11 |     1
+

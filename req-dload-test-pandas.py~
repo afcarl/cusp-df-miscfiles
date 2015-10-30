@@ -1,0 +1,30 @@
+import sys
+from zipfile import ZipFile
+from StringIO import StringIO
+import urllib2
+import pandas as pd
+
+# connect to url
+#url = sys.argv[1]
+#r = urllib2.urlopen(url).read()
+
+# I/O something or other...
+#f = StringIO(r)
+#fname = url.split('/')[-1]
+# open remove csv file, note this needs you to know name ahead of time, here just .csv instead of .zip
+#df_csv = f.open(fname)
+#df_csv = f.open(url)
+
+fname = sys.argv[1]
+
+# and read data:
+df=pd.read_csv(fname)
+# with open('test_file.csv') as f:
+f = open('test_file.csv')
+file_yts= fname.split('_')
+yts_lines = [file_yts[4][:4], file_yts[3], file_yts[2]]
+df['YEAR'] = yts_lines[0]
+df['TYPE'] = yts_lines[1]
+df['SEG'] = yts_lines[2]
+df.to_csv(f, encoding='utf-8', index_label=False, index=False)
+

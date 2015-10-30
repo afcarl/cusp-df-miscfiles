@@ -1,0 +1,1 @@
+shp2pgsql -s 4269 -I -c -W UTF-8 tl_2010_09_tabblock10.shp tl_2010_09_tabblock10 | psql df_spatial -U crh278 2> shp2psql_error5.txt
