@@ -1,14 +1,16 @@
-Pos,variable,type,Explanation
-1,w_geocode,Char15,Workplace Census Block Code
-2,h_geocode,Char15,Residence Census Block Code
-3,S000,Num,Total number of jobs
-4,SA01,Num,Number of jobs of workers age 29 or younger 11
-5,SA02,Num,Number of jobs for workers age 30 to 54 11
-6,SA03,Num,Number of jobs for workers age 55 or older 11
-7,SE01,Num,Number of jobs with earnings $1250/month or less
-8,SE02,Num,Number of jobs with earnings $1251/month to $3333/month
-9,SE03,Num,Number of jobs with earnings greater than $3333/month
-10,SI01,Num,Number of jobs in Goods Producing industry sectors
-11,SI02,Num,"Number of jobs in Trade, Transportation, and Utilities industry sectors"
-12,SI03,Num,Number of jobs in All Other Services industry sectors
-13,createdate,Char,"Date on which data was created, formatted as YYYYMMDD"
+Pos,variable in PostgreSQL,type,Explanation,Original Variable
+1,w_geocode,Varchar(15),Workplace Census Block Code,w_geocode
+2,h_geocode,Varchar(15),Residence Census Block Code,h_geocode
+3,s000,numeric,Total number of jobs,S000
+4,sa01,numeric,Number of jobs of workers age 29 or younger 11,SA01
+5,sa02,numeric,Number of jobs for workers age 30 to 54 11,SA02
+6,sa03,numeric,Number of jobs for workers age 55 or older 11,SA03
+7,se01,numeric,Number of jobs with earnings $1250/month or less,SE01
+8,se02,numeric,Number of jobs with earnings $1251/month to $3333/month,SE02
+9,se03,numeric,Number of jobs with earnings greater than $3333/month,SE03
+10,si01,numeric,Number of jobs in Goods Producing industry sectors,SI01
+11,si02,numeric,"Number of jobs in Trade, Transportation, and Utilities industry sectors",SI02
+12,si03,numeric,Number of jobs in All Other Services industry sectors,SI03
+13,createdate,Varchar(8),"Date on which data was created, formatted as YYYYMMDD",createdate
+14,year,Int,Year of data; 2002-2013,n/a – in data file name
+15,type,Varchar(4),"Job type; value of 'JT00' for All Jobs, 'JT01' for Primary Jobs, 'JT02' for All Private Jobs, 'JT03' for Private Primary Jobs, 'JT04' for All Federal Jobs, or 'JT05'",n/a – in data file name
