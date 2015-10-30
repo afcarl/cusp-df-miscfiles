@@ -8,9 +8,9 @@ Description: The Longitudinal Employer-Household Dynamics (LEHD) data has three 
 NOTE1: each of these datasets includes some demographic and industry data, see the respective data dictionaries for more info
 
 NOTE2: as detailed in the technical document ("LODESTechDoc7.1.pdf") not all fields are available for all years, these include:
-+ Race, Ethnicity, Education, and Sex are available 2009-2013 (both RAC and WAC data)
-+ Firm Age and Firm Size are available 2011-2013
-
++ Race, Ethnicity, Education, and Sex are available 2009-2013 - applies to both RAC and WAC data
++ Firm Age and Firm Size are available 2011-2013 only for All Private Jobs (JT02) - applies to WAC data
++ worker age buckets were constrained to just 14-99 starting in 2012 - applies to RAC/WAC/OD data
 
 Author: produced by the US Census' Center for Economic studies, NYC data compiled by Clayton Hunter (crh278@nyu.edu)
 Source: http://lehd.ces.census.gov/data/#lodes
