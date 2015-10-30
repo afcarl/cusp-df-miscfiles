@@ -14,8 +14,7 @@ df = pd.melt(rac, id_vars=['h_geocode', 'YEAR', 'TYPE', 'SEG'])
 
 #### see how larger data file works in postgres
 + first compare file sizes: ls -lh nyc_rac*
-  * 1.8G nyc_rac.csv
-  * 22G nyc_rac_long.csv
+  * 
 ```
 psql df_spatial 
 CREATE TABLE nyc_rac_long (blkfips varchar(15), year integer, job_type varchar(4), segment varchar(4), variable varchar(5), value numeric);
