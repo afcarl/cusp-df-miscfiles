@@ -1,8 +1,8 @@
 #### Notes to access LODES data on CUSP servers
 
 ###### Log in to CUSP servers
-NOTE 1: to be updated with in progress work by Data Facility
-NOTE 2: below is a walk through that works using Ubuntu 15.04
++ NOTE 1: to be updated with in progress work by Data Facility
++ NOTE 2: below is a walk through that works using Ubuntu 15.04
 
 1. Open a terminal
 2. SSH to compute:
