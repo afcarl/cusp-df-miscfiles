@@ -1,0 +1,17 @@
+Title: New York City LEHD Origin-Destination Employment Statistics (LODES)
+
+Description: The Longitudinal Employer-Household Dynamics (LEHD) data has three components: Quarterly Workforce Indicators (QWI), LODES (this page), and Job-to-job worker flows. The LODES data is further broken down to three pieces:
+1. Residential Area Characteristics (RAC) which provides data on where workers live
+2. Workplace Area Characteristics (WAC) which provides data on where workers work and some firm level information
+3. Origin-Destination (OD) provides the connection between RAC and WAC
+
+NOTE1: each of these datasets includes some demographic and industry data, see the respective data dictionaries for more info
+
+NOTE2: as detailed in the technical document ("LODESTechDoc7.1.pdf") not all fields are available for all years, these include:
++ Race, Ethnicity, Education, and Sex are available 2009-2013 (both RAC and WAC data)
++ Firm Age and Firm Size are available 2011-2013
+
+
+Author: produced by the US Census' Center for Economic studies, NYC data compiled by Clayton Hunter (crh278@nyu.edu)
+Source: http://lehd.ces.census.gov/data/#lodes
+Visibility: green
