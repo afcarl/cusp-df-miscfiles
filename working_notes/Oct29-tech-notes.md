@@ -2,15 +2,15 @@ add NYC lehd-lodes data to postgres database
 --------------------------------------------
 
 #### try reshaping wide data to long (or "record") format so easier to interact with programmatically
-> mostly, as geog/year/seg/type are already long format
-> using ipython on compute:
++ geog/year/seg/type are already long format
+using ipython on compute:
 ```python
 import pandas as pd
 rac = pd.read_csv('nyc_rac.csv')
 rac.drop('createdate', axis=1, inplace=True) # don't bother with that field
 df = pd.melt(rac, id_vars=['h_geocode', 'YEAR', 'TYPE', 'SEG'])
 ```
-> BUT: data size? wide format = memory usage: 5.0+ GB, long format = memory usage: 31.2+ GB
++ BUT: data size? wide format = memory usage: 5.0+ GB, long format = memory usage: 31.2+ GB
 
 #### see how larger data file works in postgres
 + first compare file sizes: ls -lh nyc_rac*
