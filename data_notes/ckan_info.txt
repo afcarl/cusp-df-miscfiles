@@ -15,3 +15,5 @@ NOTE2: as detailed in the technical document ("LODESTechDoc7.1.pdf") not all fie
 Author: produced by the US Census' Center for Economic studies, NYC data compiled by Clayton Hunter (crh278@nyu.edu)
 Source: http://lehd.ces.census.gov/data/#lodes
 Visibility: green
+Vintage: 2002-2013, annual
+Geographic granularity: US Census Block
