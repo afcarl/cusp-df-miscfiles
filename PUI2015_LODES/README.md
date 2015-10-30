@@ -1,6 +1,7 @@
-#### Notes to access LODES data on CUSP servers
+Notes to access LODES data on CUSP servers
+-------------------------------------------
 
-###### Log in to CUSP servers
+#### Log in to CUSP servers
 + NOTE 1: to be updated with in progress work by Data Facility
 + NOTE 2: below is a walk through that works using Ubuntu 15.04
 
@@ -13,7 +14,7 @@
   * list all tables `\dt` and/or view the details of a specific table, eg `\d+ nyc_rac`
   * exit psql `\q`
   
-###### Two easy(ish) ways to play with data
+#### Two easy(ish) ways to play with data
 
 1. psql - already used above, you can enter any SQL statement and there are many other commands. For example
   * Sum RAC workers (total and by age group) for all private/federal primary jobs by year: `SELECT year, type, sum(c000) c000, sum(ca01) ca01, sum(ca02) ca02, sum(ca03) ca03 FROM nyc_rac r WHERE type IN ('JT03', 'JT05') GROUP BY year, type ORDER BY type, year;`
