@@ -1,6 +1,8 @@
 add NYC lehd-lodes data to postgres database
 --------------------------------------------
 
+### no good, too slow to work with
+
 #### try reshaping wide data to long (or "record") format so easier to interact with programmatically
 + geog/year/seg/type are already long format
 using ipython on compute:
