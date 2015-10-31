@@ -31,7 +31,7 @@ cur = conn.cursor()
 
 # Execute a command: get list of tables then print them
 cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type='BASE TABLE'")
-print cursor.fetchall()
+print cur.fetchall()
 
 # get the same annual and by county summary of workers for all private and federal primary jobs in NYC
 # BUT, pass in the job types as paramaters
