@@ -22,9 +22,10 @@ SELECT year, type, sum(c000) c000, sum(ca01) ca01, sum(ca02) ca02, sum(ca03) ca0
 ------ first version created 31,176,321 rows, but laptop disconnected during process so runing a 2nd version to confirm...
 SELECT h_geocode, w_geocode INTO nyc_od_unique FROM nyc_od GROUP BY h_geocode, w_geocode;
 ```
-+ v2 command from shell is then
++ v1 command above got killed on laptop disconnect, but as noted did produce a big table
++ v2 command used to run in background is below, going to test resulting table length
   * `nohup psql -d df_spatial -c "SELECT h_geocode, w_geocode INTO nyc_od_unique_v2 FROM nyc_od GROUP BY h_geocode, w_geocode" &`
-  * note, above gave <nohup: ignoring input and appending output to `nohup.out'>
+  * note, above gave "nohup: ignoring input and appending output to `nohup.out'" warning...
 
 ```SQL
 -- update table, pg administrative stuff
@@ -39,6 +40,7 @@ ALTER TABLE nyc_od_unique ADD COLUMN uid serial NOT NULL; ALTER TABLE nyc_od_uni
 ALTER TABLE nyc_od_unique ADD COLUMN h_geom geometry('Point', 4326), ADD COLUMN w_geom geometry('Point', 4326);
 UPDATE nyc_od_unique n SET h_geom = geom_pntwgs FROM tristate_blocks t WHERE n.h_geocode = t.geoid10; UPDATE nyc_od_unique n SET w_geom = geom_pntwgs FROM tristate_blocks t WHERE n.w_geocode = t.geoid10;
 
+# ----- here as of 4:10pm --------
 -- add distance column and calculate, cast to geography to calculate distance on spheroid
 ALTER TABLE nyc_od_unique ADD COLUMN dist_meters double precision; UPDATE nyc_od_unique SET dist_meters = ST_Distance(h_geom::geography, w_geom::geography) WHERE h_geom IS NOT NULL AND w_geom IS NOT NULL;
 
