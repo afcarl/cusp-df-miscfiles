@@ -9,6 +9,7 @@ ALTER TABLE nyc_<dataset> ADD PRIMARY KEY (uid); -- set uid as primary key
 CREATE INDEX ON nyc_<dataset> (year); -- add btree index for faster searching
 CREATE INDEX ON nyc_<dataset> (type);
 CREATE INDEX ON nyc_<dataset> (seg);
+CREATE INDEX ON nyc_<dataset> (*_geocode); -- index for location columns h_geocode and w_geocode
 VACUUM ANALYZE nyc_<dataset>; -- get database caught up with all the data changes
 
 -- in psql above can also be run all at once, as for WAC here:
