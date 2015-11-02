@@ -18,7 +18,7 @@ ALTER TABLE nyc_wac ADD COLUMN uid serial NOT NULL; ALTER TABLE nyc_wac ADD PRIM
 * Test data speed - sum some columns, then create neighborhood level summaries of RAC
 ```SQL
 -- test query plan and execution time with summary of NYC primary jobs by year for each of the 3 age buckets
-EXPLAIN ANALYZE SELECT year, sum(r.c000) c000, sum(r.ca01) ca01, sum(r.ca02) ca02, sum(r.ca03) ca03 FROM nyc_rac r GROUP BY year ORDER BY year;
+EXPLAIN ANALYZE SELECT year, sum(r.c000) c000, sum(r.ca01) ca01, sum(r.ca02) ca02, sum(r.ca03) ca03 FROM nyc_rac r WHERE seg = 'S000' GROUP BY year ORDER BY year;
 -- output:
                                                        QUERY PLAN                                                              
 --------------------------------------------------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ EXPLAIN ANALYZE SELECT year, sum(r.c000) c000, sum(r.ca01) ca01, sum(r.ca02) ca0
 (6 rows)
 
 -- view results
-SELECT year, r.type, sum(r.c000) c000, sum(r.ca01) ca01, sum(r.ca02) ca02, sum(r.ca03) ca03 FROM nyc_rac r GROUP BY year ORDER BY type, year;
+SELECT year, r.type, sum(r.c000) c000, sum(r.ca01) ca01, sum(r.ca02) ca02, sum(r.ca03) ca03 FROM nyc_rac r WHERE seg = 'S000' GROUP BY year ORDER BY type, year;
  year |   c000   |   ca01   |   ca02   |  ca03   
 ------+----------+----------+----------+---------
  2002 | 41229416 | 11161352 | 24023804 | 6044260
