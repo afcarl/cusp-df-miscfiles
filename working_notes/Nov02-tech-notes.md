@@ -19,10 +19,13 @@ SELECT year, type, sum(c000) c000, sum(ca01) ca01, sum(ca02) ca02, sum(ca03) ca0
 ------ make O-D data more useful ----------
 -- first create unique block-block table for NYC O-D
 ---- NOTE: takes a long time, summarizing 153,094,477 rows
+--------- first version created 31,176,321 rows, run a 2nd version to confirm...
 SELECT h_geocode, w_geocode INTO nyc_od_unique FROM nyc_od GROUP BY h_geocode, w_geocode;
+```
++ v2 command from shell is then
+  * `nohup psql -d df_spatial -c "SELECT h_geocode, w_geocode INTO nyc_od_unique_v2 FROM nyc_od GROUP BY h_geocode, w_geocode" &`
 
--------- NOTE, waiting for above as of 12:00 noon Nov, 2 ----------------------
-
+```SQL
 -- update table, pg administrative stuff
 ALTER TABLE nyc_od_unique ADD COLUMN uid serial NOT NULL; ALTER TABLE nyc_od_unique ADD PRIMARY KEY (uid);
 CREATE INDEX ON nyc_od_unique (h_geocode); CREATE INDEX ON nyc_od_unique (w_geocode);
