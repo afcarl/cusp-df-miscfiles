@@ -19,25 +19,28 @@ SELECT year, type, sum(c000) c000, sum(ca01) ca01, sum(ca02) ca02, sum(ca03) ca0
 ------ make O-D data more useful ----------
 -- first create unique block-block table for NYC O-D
 ---- NOTE: takes a long time, summarizing 153,094,477 rows
---------- first version created 31,176,321 rows, run a 2nd version to confirm...
+------ first version created 31,176,321 rows, but laptop disconnected during process so runing a 2nd version to confirm...
 SELECT h_geocode, w_geocode INTO nyc_od_unique FROM nyc_od GROUP BY h_geocode, w_geocode;
 ```
 + v2 command from shell is then
   * `nohup psql -d df_spatial -c "SELECT h_geocode, w_geocode INTO nyc_od_unique_v2 FROM nyc_od GROUP BY h_geocode, w_geocode" &`
+  * note, above gave <nohup: ignoring input and appending output to `nohup.out'>
 
 ```SQL
 -- update table, pg administrative stuff
-ALTER TABLE nyc_od_unique ADD COLUMN uid serial NOT NULL; ALTER TABLE nyc_od_unique ADD PRIMARY KEY (uid);
-CREATE INDEX ON nyc_od_unique (h_geocode); CREATE INDEX ON nyc_od_unique (w_geocode);
+ALTER TABLE nyc_od_unique ADD COLUMN uid serial NOT NULL; ALTER TABLE nyc_od_unique ADD PRIMARY KEY (uid); CREATE INDEX ON nyc_od_unique (h_geocode); CREATE INDEX ON nyc_od_unique (w_geocode);
 
 -- add geometry columns for distance calculation
+-- nyc_od_unique includes any combination where EITHER home or work is in NYC
+-- tristate_blocks as all block info for NY / NJ / CT
+-- so, resulting distance calculations will have any commuters entering / leaving NYC 
+-- with origins/destinations in one of those three states, but will throw an error if do not include 
+-- "WHERE [h/w]_geocode IS NOT NULL"
 ALTER TABLE nyc_od_unique ADD COLUMN h_geom geometry('Point', 4326), ADD COLUMN w_geom geometry('Point', 4326);
-UPDATE nyc_od_unique n SET h_geom = geom_pntwgs FROM tristate_ t WHERE n.h_geocode = t.geoid10;
-UPDATE nyc_od_unique n SET w_geom = geom_pntwgs FROM tristate_ t WHERE n.w_geocode = t.geoid10;
+UPDATE nyc_od_unique n SET h_geom = geom_pntwgs FROM tristate_blocks t WHERE n.h_geocode = t.geoid10; UPDATE nyc_od_unique n SET w_geom = geom_pntwgs FROM tristate_blocks t WHERE n.w_geocode = t.geoid10;
 
--- add distance column and calculate
-ALTER TABLE nyc_od_unique ADD COLUMN dist_meters double precision;
-UPDATE nyc_od_unique SET dist_meters = ST_Distance(h_geom::geography, w_geom::geography) WHERE h_geom IS NOT NULL AND w_geom IS NOT NULL;
+-- add distance column and calculate, cast to geography to calculate distance on spheroid
+ALTER TABLE nyc_od_unique ADD COLUMN dist_meters double precision; UPDATE nyc_od_unique SET dist_meters = ST_Distance(h_geom::geography, w_geom::geography) WHERE h_geom IS NOT NULL AND w_geom IS NOT NULL;
 
 -- add start and end neighborhood codes
 ALTER TABLE nyc_od_unique ADD COLUMN h_ntacode varchar(4), ADD COLUMN w_ntacode varchar(4);
