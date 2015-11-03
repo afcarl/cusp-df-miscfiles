@@ -55,14 +55,18 @@ VACUUM ANALYZE nyc_od_unique;
 UPDATE nyc_od_unique SET dist_meters = ST_Distance(h_geom::geography, w_geom::geography) WHERE h_geom IS NOT NULL AND w_geom IS NOT NULL;
 -- add start and end neighborhood codes
 ALTER TABLE nyc_od_unique ADD COLUMN h_ntacode varchar(4), ADD COLUMN w_ntacode varchar(4);
-UPDATE nyc_od_unique o SET h_ntacode = ntacode FROM bg2010_lookup b WHERE left(o.h_geocode, 12) = b.geoid10;
-UPDATE nyc_od_unique o SET w_ntacode = ntacode FROM bg2010_lookup b WHERE left(o.w_geocode, 12) = b.geoid10;
+UPDATE nyc_od_unique o SET h_ntacode = ntacode FROM bg2010_nhood b WHERE left(o.h_geocode, 12) = b.geoid;
+UPDATE nyc_od_unique o SET w_ntacode = ntacode FROM bg2010_nhood b WHERE left(o.w_geocode, 12) = b.geoid;
 -- recalculate table statistics
 VACUUM ANALYZE VERBOSE nyc_od_unique;
 ```
 + then from the terminal run
 `nohup psql -d df_spatial -f od_update_1103.sql > od_update_1103_out.txt &`
 + this notice: `nohup: ignoring input and redirecting stderr to stdout` is due to [not explicitly directing the error to an output](http://unix.stackexchange.com/questions/105840/nohup-ignoring-input-and-redirecting-stderr-to-stdout)
+
+> SIDE NOTE: had a couple typos (table and column name) in the above query that caused it to fail and hang up a bit, here's some useful things to diagnose/clean up that situation:
+> 1. `SELECT * FROM pg_stat_activity WHERE datname = 'df_spatial';` list query processes for this database
+> 2. `SELECT pg_cancel_backend(<pid>) FROM pg_stat_activity WHERE datname = 'df_spatial'` - cancel specific process that doesn't need to run, pulled from [here](http://www.postgresql.org/docs/9.2/static/functions-admin.html)
 
 ```SQL
 -- now we can more directly calculate some distance metrics by neighborhood --
