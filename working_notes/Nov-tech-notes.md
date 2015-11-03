@@ -18,9 +18,10 @@ SELECT year, type, sum(c000) c000, sum(ca01) ca01, sum(ca02) ca02, sum(ca03) ca0
 
 ------ make O-D data more useful ----------
 -- first create unique block-block table for NYC O-D
----- NOTE: takes a long time, summarizing 153,094,477 rows
------- first version created 31,176,321 rows, but laptop disconnected during process so runing a 2nd version to confirm...
 SELECT h_geocode, w_geocode INTO nyc_od_unique FROM nyc_od GROUP BY h_geocode, w_geocode;
+
+-- NOTE: takes a long time, summarizing 153,094,477 rows
+---- first version created 31,176,321 rows, but laptop disconnected during process so runing a 2nd version to confirm...
 ```
 + v1 command above got killed on laptop disconnect, but as noted did produce a big table
 + v2 command used to run in background is below, going to test resulting table length
@@ -61,6 +62,7 @@ VACUUM ANALYZE VERBOSE nyc_od_unique;
 ```
 + then from the terminal run
 `nohup psql -d df_spatial -f od_update_1103.sql > od_update_1103_out.txt &`
++ why do I get this notice: `nohup: ignoring input and redirecting stderr to stdout`
 
 -- now we can more directly calculate some distance metrics by neighborhood --
 \copy (SELECT d.h_ntacode, d.w_ntacode, f.year, f.type, sum(f.s000) s000, sum(f.sa01) sa01, sum(f.sa02) sa02, sum(f.sa03) sa03, sum(f.se01) se01, sum(f.se02) se02, sum(f.se03) se03, sum(f.si01) si01, sum(f.si02) si02, sum(f.si03) si03 FROM nyc_od f JOIN nyc_od_unique d ON f.h_geocode = d.h_geocode AND f.w_geocode = d.geocode GROUP BY d.h_ntacode, d.w_ntacode, f.year, f.type ORDER BY f.year, d.h_ntacode, d.w_ntacode, f.type) TO './nyc_nhood_od.csv' CSV HEADER
