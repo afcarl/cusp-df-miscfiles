@@ -62,7 +62,7 @@ VACUUM ANALYZE VERBOSE nyc_od_unique;
 ```
 + then from the terminal run
 `nohup psql -d df_spatial -f od_update_1103.sql > od_update_1103_out.txt &`
-+ why do I get this notice: `nohup: ignoring input and redirecting stderr to stdout`
++ this notice: `nohup: ignoring input and redirecting stderr to stdout` is due to [not explicitly directing the error to an output](http://unix.stackexchange.com/questions/105840/nohup-ignoring-input-and-redirecting-stderr-to-stdout)
 
 -- now we can more directly calculate some distance metrics by neighborhood --
 \copy (SELECT d.h_ntacode, d.w_ntacode, f.year, f.type, sum(f.s000) s000, sum(f.sa01) sa01, sum(f.sa02) sa02, sum(f.sa03) sa03, sum(f.se01) se01, sum(f.se02) se02, sum(f.se03) se03, sum(f.si01) si01, sum(f.si02) si02, sum(f.si03) si03 FROM nyc_od f JOIN nyc_od_unique d ON f.h_geocode = d.h_geocode AND f.w_geocode = d.geocode GROUP BY d.h_ntacode, d.w_ntacode, f.year, f.type ORDER BY f.year, d.h_ntacode, d.w_ntacode, f.type) TO './nyc_nhood_od.csv' CSV HEADER
