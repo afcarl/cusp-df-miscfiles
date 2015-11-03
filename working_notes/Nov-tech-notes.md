@@ -65,8 +65,8 @@ VACUUM ANALYZE VERBOSE nyc_od_unique;
 + this notice: `nohup: ignoring input and redirecting stderr to stdout` is due to [not explicitly directing the error to an output](http://unix.stackexchange.com/questions/105840/nohup-ignoring-input-and-redirecting-stderr-to-stdout)
 
 > SIDE NOTE: had a couple typos (table and column name) in the above query that caused it to fail and hang up a bit, here's some useful things to diagnose/clean up that situation:
-> 1. `SELECT * FROM pg_stat_activity WHERE datname = 'df_spatial';` list query processes for this database
-> 2. `SELECT pg_cancel_backend(<pid>) FROM pg_stat_activity WHERE datname = 'df_spatial'` - cancel specific process that doesn't need to run, pulled from [here](http://www.postgresql.org/docs/9.2/static/functions-admin.html)
+>> 1. `SELECT * FROM pg_stat_activity WHERE datname = 'df_spatial';` list query processes for this database
+>> 2. `SELECT pg_cancel_backend(<pid>) FROM pg_stat_activity WHERE datname = 'df_spatial'` - cancel specific process that doesn't need to run, pulled from [here](http://www.postgresql.org/docs/9.2/static/functions-admin.html)
 
 ```SQL
 -- now we can more directly calculate some distance metrics by neighborhood --
