@@ -27,7 +27,7 @@ Notes to access LODES data on CUSP servers
 import psycopg2 as pg
 
 # define connection
-conn = pg.connect("dbname=df_spatial host=compute.cusp.nyu.edu user=<username> password=<password>")
+conn = pg.connect("dbname=df_spatial")
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
