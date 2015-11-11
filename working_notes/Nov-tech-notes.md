@@ -49,7 +49,7 @@ ALTER TABLE nyc_od_unique ADD COLUMN dist_meters double precision;
 VACUUM ANALYZE nyc_od_unique;
 ```
 
-#### (November 3rd) Given time to calculate above, run next chunk in background
+#### (November 3rd++) Given time to calculate above, run next chunk in background
 + first create a file (od_update_1103.sql) which simple contains the below
 ```SQL
 UPDATE nyc_od_unique SET dist_meters = ST_Distance(h_geom::geography, w_geom::geography) WHERE h_geom IS NOT NULL AND w_geom IS NOT NULL;
@@ -73,3 +73,20 @@ VACUUM ANALYZE VERBOSE nyc_od_unique;
 \copy (SELECT d.h_ntacode, d.w_ntacode, f.year, f.type, sum(f.s000) s000, sum(f.sa01) sa01, sum(f.sa02) sa02, sum(f.sa03) sa03, sum(f.se01) se01, sum(f.se02) se02, sum(f.se03) se03, sum(f.si01) si01, sum(f.si02) si02, sum(f.si03) si03 FROM nyc_od f JOIN nyc_od_unique d ON f.h_geocode = d.h_geocode AND f.w_geocode = d.geocode GROUP BY d.h_ntacode, d.w_ntacode, f.year, f.type ORDER BY f.year, d.h_ntacode, d.w_ntacode, f.type) TO './nyc_nhood_od.csv' CSV HEADER
 
 ```
+
+#### (Nov 10) datasets for SOM 
+[NYC City Planning LION Street Layer File](http://www.nyc.gov/html/dcp/html/bytes/dwnlion.shtml)
++ Download and unzip File Geodatabase
++ use ogr2ogr to convert to shapefile: `ogr2ogr -f "ESRI Shapefile" ./ ./lion/lion.gdb`
+  * get warning of shortened fields (**NEED TO UPDATE IN POSTGIS LATER**): `Normalized/laundered field name:` X
+  * Permission denied to add [NY_STATE_PLANE](http://spatialreference.org/ref/esri/102718/postgis/), trying geopandas:
+```Python
+import geopandas as gpd
+lion = gpd.read_file('lion.shp') # takes a while since loading a big shapefile
+lion.crs # confirm read in correctly
+lion.to_crs(epsg=4326, inplace=True)
+lion.crs # confirm transformed correctly
+lion.to_file('./lion_wgs.shp')
+```
++ Try loading to shapefile: `shp2pgsql -s 4326 lion_wgs public.lion_wgs | psql -d df_spatial` (successful)
++ test a few lines with `SELECT gid, ST_AsText(geom) wkt_geom FROM lion_wgs WHERE gid IN (15, 60, 700, 8923, 30928, 201555);` in psql and view [in CartoDB](http://bit.ly/1MVom9s) - these look good
