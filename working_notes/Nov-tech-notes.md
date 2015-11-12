@@ -79,7 +79,7 @@ VACUUM ANALYZE VERBOSE nyc_od_unique;
 + Download and unzip File Geodatabase
 + use ogr2ogr to convert to shapefile: `ogr2ogr -f "ESRI Shapefile" ./ ./lion/lion.gdb`
   * get warning of shortened fields (**NEED TO UPDATE IN POSTGIS LATER**): `Normalized/laundered field name:` X
-  * Permission denied to add [NY_STATE_PLANE](http://spatialreference.org/ref/esri/102718/postgis/), trying geopandas:
+  * Permission denied to add spatial reference [NY_STATE_PLANE](http://spatialreference.org/ref/esri/102718/postgis/), transform (aka reproject) data using geopandas:
 ```Python
 import geopandas as gpd
 lion = gpd.read_file('lion.shp') # takes a while since loading a big shapefile
@@ -90,3 +90,23 @@ lion.to_file('./lion_wgs.shp')
 ```
 + Try loading to shapefile: `shp2pgsql -s 4326 lion_wgs public.lion_wgs | psql -d df_spatial` (successful)
 + test a few lines with `SELECT gid, ST_AsText(geom) wkt_geom FROM lion_wgs WHERE gid IN (15, 60, 700, 8923, 30928, 201555);` in psql and view [in CartoDB](http://bit.ly/1MVom9s) - these look good
++ do the same steps above for the "node.*" shapefile
+
+#### (Nov 11) SOM continued
+Get Deptartment of Finance [RPAD](http://www1.nyc.gov/site/finance/taxes/property-assessments.page) data
+
+From the target location location, run `wget <url>` for the below datasets (all on RPAD page):
+1. Tax Class 1
+2. Tax Classes 2, 3, and 4
+3. Data Dictionary
+> NOTE: in MS Access, still need to reformat/extract to make useful.
+
+Get [Parks Properties](https://data.cityofnewyork.us/City-Government/Parks-Properties/rjaj-zgq7) data
++ downloaded as shapefile ("export" -> "Shapefile")
++ transfer to cusp server with `scp Parks_Properties.zip crh278@shell.cusp.nyu.edu:/home/cusp/crh278/parks/.`
+
+Get [Selected Facilities](http://www.nyc.gov/html/dcp/html/bytes/dwnselfac.shtml) data
++ [metadata](http://www.nyc.gov/html/dcp/pdf/bytes/selfac_metadata.pdf?r=1)
++ download with `wget http://www.nyc.gov/html/dcp/download/bytes/nyc_facilities2015_shp.zip`
+
+> NOTE: both parks and facilities datasets in NY State Plane Feet projection, need to convert to WGS or add new projection to PostGIS
