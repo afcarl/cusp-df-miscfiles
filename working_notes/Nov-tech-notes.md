@@ -101,12 +101,18 @@ From the target location location, run `wget <url>` for the below datasets (all 
 3. Data Dictionary
 > NOTE: in MS Access, still need to reformat/extract to make useful.
 
+Add NY State Plane (feet) to PostGIS (updated from [spatialreference.org](http://spatialreference.org/ref/esri/102718/postgis/))
+```SQL
+INSERT into spatial_ref_sys (srid, auth_name, auth_srid, proj4text, srtext) 
+    values ( 102718, 'esri', 102718, '+proj=lcc +lat_1=40.66666666666666 +lat_2=41.03333333333333 +lat_0=40.16666666666666 +lon_0=-74 +x_0=300000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs ', 'PROJCS["NAD_1983_StatePlane_New_York_Long_Island_FIPS_3104_Feet",GEOGCS["GCS_North_American_1983",DATUM["North_American_Datum_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["False_Easting",984249.9999999999],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",-74],PARAMETER["Standard_Parallel_1",40.66666666666666],PARAMETER["Standard_Parallel_2",41.03333333333333],PARAMETER["Latitude_Of_Origin",40.16666666666666],UNIT["Foot_US",0.30480060960121924],AUTHORITY["EPSG","102718"]]');
+```
+
 Get [Parks Properties](https://data.cityofnewyork.us/City-Government/Parks-Properties/rjaj-zgq7) data
 + downloaded as shapefile ("export" -> "Shapefile")
 + transfer to cusp server with `scp Parks_Properties.zip crh278@shell.cusp.nyu.edu:/home/cusp/crh278/parks/.`
++ load to postgis with `shp2pgsql -s 102718 DPR_ParksProperties_001 public.dpr_parks | psql -d df_spatial`
 
 Get [Selected Facilities](http://www.nyc.gov/html/dcp/html/bytes/dwnselfac.shtml) data
 + [metadata](http://www.nyc.gov/html/dcp/pdf/bytes/selfac_metadata.pdf?r=1)
 + download with `wget http://www.nyc.gov/html/dcp/download/bytes/nyc_facilities2015_shp.zip`
-
-> NOTE: both parks and facilities datasets in NY State Plane Feet projection, need to convert to WGS or add new projection to PostGIS
++ load to postgis with `shp2pgsql -s 102718 Facilities public.facilities | psql -d df_spatial`
