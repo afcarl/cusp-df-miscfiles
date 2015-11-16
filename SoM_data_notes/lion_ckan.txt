@@ -1,0 +1,12 @@
+LION Single Line Street Base Map
+source: http://www.nyc.gov/html/dcp/html/bytes/dwnlion.shtml
++ LION metadata: http://www.nyc.gov/html/dcp/pdf/bytes/lion_metadata.pdf?v=15b
++ node metadata: http://www.nyc.gov/html/dcp/pdf/bytes/node_metadata.pdf?v=15b
+
+Both LION and node are tables in the "df_spatial" postgresql database, named "lion_wgs" and "node_wgs" respectively. Both tables' geometries are in WGS84.
+
+Steps taken to bring into the CUSP data facility:
+1. Download Esri file geodatabase
+2. Convert to shapefiles using ogr2ogr [ogr2ogr -f "ESRI Shapefile" /target/path/ /path/to/lion.gdb]
+3. Use python's geopandas to convert from NY State Plane projection to WGS84
+4. Load to postgresql database with [shp2pgsql -s 4326 <dataset>_wgs public.<dataset>_wgs | psql -d df_spatial]

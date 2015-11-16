@@ -1,0 +1,7 @@
+Parks Properties: https://data.cityofnewyork.us/City-Government/Parks-Properties/rjaj-zgq7
+
+Parks data is in "df_spatial" database as with the name "dpr_parks" and geometry is in original projection: NAD 1983 StatePlane New York Long Island FIPS 3104 Feet (as specified here - http://spatialreference.org/ref/esri/102718/)
+
+1. downloaded as shapefile ("export" -> "Shapefile")
+2. transfer to cusp server
+3. loaded to postgis with [shp2pgsql -s 102718 DPR_ParksProperties_001 public.dpr_parks | psql -d df_spatial]

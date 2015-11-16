@@ -1,0 +1,8 @@
+Selected Facilities and Program Sites
+source: http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml
+metadata: http://www.nyc.gov/html/dcp/pdf/bytes/selfac_metadata.pdf?r=1
+
+Located in "df_spatial" database under name "facilities", geometry is in original projection: NAD 1983 StatePlane New York Long Island FIPS 3104 Feet (as specified here - http://spatialreference.org/ref/esri/102718/)
+
+1. downloaded with [wget http://www.nyc.gov/html/dcp/download/bytes/nyc_facilities2015_shp.zip]
+2. loaded to postgis with [shp2pgsql -s 102718 Facilities public.facilities | psql -d df_spatial]

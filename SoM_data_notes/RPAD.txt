@@ -1,0 +1,7 @@
+Residential Property Assessment Data (RPAD)
+source: http://www1.nyc.gov/site/finance/taxes/property-assessments.page
+Data Dictionary: http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf
+
+Currently only downloaded as MS Access databases ("Tax Class 1" and "Tax Classes 2, 3 and 4"), have not found a way to convert to another format on Linux machines.
+
+
